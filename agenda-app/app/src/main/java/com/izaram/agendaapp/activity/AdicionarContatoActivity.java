@@ -2,6 +2,7 @@ package com.izaram.agendaapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,6 +23,9 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdicionarContatoActivity extends AppCompatActivity {
 
@@ -53,7 +57,7 @@ public class AdicionarContatoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int action = getIntent().getIntExtra("ACTION", -1);
                 if (action == 1) {
-                    adicionarContato();
+                    adicionarContato(MainActivity.user_id);
                 }else if (action == 0) {
                     editarContato();
                 }else {
@@ -84,8 +88,8 @@ public class AdicionarContatoActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), ListaContatosActivity.class));
                 finish();
             }
         }, new Response.ErrorListener() {
@@ -93,11 +97,21 @@ public class AdicionarContatoActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerMap = new HashMap<String, String>();
+                headerMap.put("Content-Type", "application/json");
+                headerMap.put("Authorization", "Bearer " + MainActivity.ACCESS_TOKEN);
+                return headerMap;
+            }
+
+        };
         queue.add(jsonObjectRequest);
     }
 
-    private void adicionarContato() {
+    private void adicionarContato(int user_id) {
 
         nome = findViewById(R.id.ti_nome);
         categoria = findViewById(R.id.ti_categoria);
@@ -112,13 +126,13 @@ public class AdicionarContatoActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.0.104:8000/api/contatos/" + 1;
+        String url = "http://192.168.0.104:8000/api/contatos/" + user_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), ListaContatosActivity.class));
                 finish();
             }
         }, new Response.ErrorListener() {
@@ -126,7 +140,17 @@ public class AdicionarContatoActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerMap = new HashMap<String, String>();
+                headerMap.put("Content-Type", "application/json");
+                headerMap.put("Authorization", "Bearer " + MainActivity.ACCESS_TOKEN);
+                return headerMap;
+            }
+
+        };
         queue.add(jsonObjectRequest);
     }
 

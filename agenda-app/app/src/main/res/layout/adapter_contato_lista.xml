@@ -10,13 +10,14 @@
         android:id="@+id/cv_contato"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="5dp"
+        android:elevation="5dp"
         app:cardElevation="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="15dp">
 
             <TextView
                 android:id="@+id/tv_nome"

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.izaram.agendaapp.MainActivity;
 import com.izaram.agendaapp.R;
 import com.izaram.agendaapp.adapter.RecyclerContatosAdapter;
 import com.izaram.agendaapp.helper.RecyclerItemClickListener;
@@ -34,6 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ListaContatosActivity extends AppCompatActivity {
 
@@ -50,9 +54,8 @@ public class ListaContatosActivity extends AppCompatActivity {
         rvContatos = findViewById(R.id.rv_listaContatos);
         contatoList = new ArrayList<>();
 
-
         //List all contatos
-        listAllContatos(1);
+        listAllContatos(MainActivity.user_id);
 
 
         //Search Contato
@@ -168,7 +171,17 @@ public class ListaContatosActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.i("Error: ", error.toString());
                     }
-                });
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerMap = new HashMap<String, String>();
+                headerMap.put("Content-Type", "application/json");
+                headerMap.put("Authorization", "Bearer " + MainActivity.ACCESS_TOKEN);
+                return headerMap;
+            }
+
+        };
 
         queue.add(jsonArrayRequest);
     }
@@ -185,7 +198,7 @@ public class ListaContatosActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                 contatoList.remove(position);
                 contatoList.clear();
-                listAllContatos(1);
+                listAllContatos(MainActivity.user_id);
                 Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
 
                 searchView.clearFocus();
@@ -196,7 +209,17 @@ public class ListaContatosActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerMap = new HashMap<String, String>();
+                headerMap.put("Content-Type", "application/json");
+                headerMap.put("Authorization", "Bearer " + MainActivity.ACCESS_TOKEN);
+                return headerMap;
+            }
+
+        };
         queue.add(stringRequest);
     }
 }

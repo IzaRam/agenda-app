@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.izaram.agendaapp.MainActivity;
 import com.izaram.agendaapp.R;
 import com.izaram.agendaapp.adapter.RecyclerContatosAdapter;
 import com.izaram.agendaapp.adapter.RecyclerEnderecosAdapter;
@@ -36,6 +38,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ViewContatoActivity extends AppCompatActivity {
 
@@ -240,7 +244,17 @@ public class ViewContatoActivity extends AppCompatActivity {
                         Log.i("Error: ", error.toString());
                     }
                 }
-        );
+        ){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerMap = new HashMap<String, String>();
+                headerMap.put("Content-Type", "application/json");
+                headerMap.put("Authorization", "Bearer " + MainActivity.ACCESS_TOKEN);
+                return headerMap;
+            }
+
+        };
         queue.add(jsonObjectRequest);
     }
 
@@ -266,7 +280,17 @@ public class ViewContatoActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerMap = new HashMap<String, String>();
+                headerMap.put("Content-Type", "application/json");
+                headerMap.put("Authorization", "Bearer " + MainActivity.ACCESS_TOKEN);
+                return headerMap;
+            }
+
+        };
         queue.add(stringRequest);
     }
 
@@ -291,7 +315,17 @@ public class ViewContatoActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerMap = new HashMap<String, String>();
+                headerMap.put("Content-Type", "application/json");
+                headerMap.put("Authorization", "Bearer " + MainActivity.ACCESS_TOKEN);
+                return headerMap;
+            }
+
+        };
         queue.add(stringRequest);
     }
 

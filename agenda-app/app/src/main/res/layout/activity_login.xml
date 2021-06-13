@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".activity.AdicionarContatoActivity">
+    tools:context=".activity.LoginActivity">
 
     <TextView
-        android:id="@+id/tv_add_contato_titulo"
+        android:id="@+id/tv_login_titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="150dp"
         android:layout_marginEnd="16dp"
-        android:text="Adicionar Novo Contato"
+        android:text="Login"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,15 +30,14 @@
         app:boxStrokeWidth="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_add_contato_titulo">
+        app:layout_constraintTop_toBottomOf="@id/tv_login_titulo">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ti_nome"
+            android:id="@+id/ti_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="Nome"
-            android:inputType="textCapSentences" />
+            android:hint="Email" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -54,21 +53,22 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ti_categoria"
+            android:id="@+id/ti_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="Categoria"
-            android:inputType="textCapSentences" />
+            android:hint="Password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_save"
+        android:id="@+id/btn_entrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Adicionar"
+        android:text="Entrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

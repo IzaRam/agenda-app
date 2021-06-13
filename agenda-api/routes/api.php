@@ -15,7 +15,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 // Protected Routes            
-//Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
 	// Auth Routes             
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -33,5 +33,5 @@ Route::post('/login', [AuthController::class, 'login']);
 	// Endereco Routes
 	Route::resource('endereco', EnderecoController::class)->only('store', 'update', 'destroy');
 
-//});
+});
 
