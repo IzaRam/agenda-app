@@ -14,9 +14,12 @@ class Endereco extends Model
      *
      * @var array
      */
-    protected $fillable = [
+	protected $fillable = [
 		'contato_id',
-        'numero',
-        'tipo'
+        'cep',
+        'logradouro',
+        'bairro',
+        'cidade',
+        'uf'
     ];
 }

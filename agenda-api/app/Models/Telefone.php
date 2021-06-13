@@ -14,12 +14,9 @@ class Telefone extends Model
      *
      * @var array
      */
-    protected $fillable = [
+	protected $fillable = [
 		'contato_id',
-        'cep',
-        'logradouro',
-        'bairro',
-        'cidade',
-        'uf'
+        'numero',
+        'tipo'
     ];
 }

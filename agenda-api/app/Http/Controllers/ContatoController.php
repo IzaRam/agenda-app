@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contato;
+use App\Models\Endereco;
+use App\Models\Telefone;
 
 class ContatoController extends Controller
 {
@@ -12,9 +14,9 @@ class ContatoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return Contato::all();
+		return response()->json(Contato::where('user_id', $id)->get());
     }
 
     /**
@@ -27,9 +29,10 @@ class ContatoController extends Controller
     {
 		$request->validate([
 			"nome" => "required|string",
-			"categoria" => "required|string"
+			"categoria" => "required|string",
+			"user_id" => "required|integer"
 		]);
-		return Contato::create($request->all());
+		return response()->json(Contato::create($request->all()));
     }
 
     /**
@@ -40,7 +43,10 @@ class ContatoController extends Controller
      */
     public function show($id)
     {
-        return Contato::findOrFail($id);
+        $contato = Contato::findOrFail($id);
+		$contato->enderecos;
+		$contato->telefones;
+		return response()->json($contato);
     }
 
     /**
@@ -52,9 +58,14 @@ class ContatoController extends Controller
      */
     public function update(Request $request, $id)
     {
+		$request->validate([
+			"nome" => "sometimes|required|string",
+			"categoria" => "sometimes|required|string",
+			"user_id" => "sometimes|required|integer"
+		]);
         $contato = Contato::findOrFail($id);
 		$contato->update($request->all());
-		return $contato;
+		return response()->json($contato);
     }
 
     /**
@@ -65,7 +76,13 @@ class ContatoController extends Controller
      */
     public function destroy($id)
     {
-		Contato::findOrFail($id);
-		Contato::destroy($id);
+		$contato = Contato::findOrFail($id);
+		foreach($contato->telefones as $telefone) {
+			Telefone::destroy($telefone->id);
+		}
+		foreach($contato->enderecos as $endereco) {
+			Endereco::destroy($endereco->id);
+		}
+		return response()->json(Contato::destroy($id));
     }
 }

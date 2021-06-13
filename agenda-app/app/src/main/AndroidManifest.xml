@@ -6,13 +6,17 @@
 
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AgendaApp">
-        <activity android:name=".activity.AdicionarContatoActivity"></activity>
+        android:theme="@style/Theme.AgendaApp"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activity.ViewEnderecoActivity"></activity>
+        <activity android:name=".activity.AdicionarEnderecoActivity" />
+        <activity android:name=".activity.AdicionarTelefoneActivity" />
+        <activity android:name=".activity.ViewContatoActivity" />
+        <activity android:name=".activity.AdicionarContatoActivity" />
         <activity android:name=".activity.ListaContatosActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

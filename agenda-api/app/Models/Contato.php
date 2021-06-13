@@ -16,14 +16,15 @@ class Contato extends Model
      */
     protected $fillable = [
         'nome',
-        'categoria'
+		'categoria',
+		'user_id'
     ];
 
-	function getTelefones() {
+	function telefones() {
 		return $this->hasMany('App\Models\Telefone');
 	}
 
-	function getEnderecos() {
+	function enderecos() {
 		return $this->hasMany('App\Models\Endereco');
 	}
 }

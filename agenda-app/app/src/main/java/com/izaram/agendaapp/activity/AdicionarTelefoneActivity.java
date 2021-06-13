@@ -12,6 +12,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.izaram.agendaapp.MainActivity;
 import com.izaram.agendaapp.R;
 import com.izaram.agendaapp.model.Contato;
+import com.izaram.agendaapp.model.Telefone;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,29 +24,30 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AdicionarContatoActivity extends AppCompatActivity {
+public class AdicionarTelefoneActivity extends AppCompatActivity {
 
-    TextInputEditText nome, categoria;
+    TextInputEditText numero, tipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adicionar_contato);
+        setContentView(R.layout.activity_adicionar_telefone);
 
-        Button btnSave = findViewById(R.id.btn_save);
+        Button btnSave = findViewById(R.id.btn_save_telefone);
+        Contato contato = (Contato) getIntent().getSerializableExtra("CONTATO");
+
+        numero = findViewById(R.id.ti_numero);
+        tipo = findViewById(R.id.ti_tipo);
 
         if(getIntent().getIntExtra("ACTION", -1) == 0){
-            TextView textViewTitle = findViewById(R.id.tv_add_contato_titulo);
-            textViewTitle.setText("Editar Contato");
+            TextView textViewTitle = findViewById(R.id.tv_add_telefone_titulo);
+            textViewTitle.setText("Editar Telefone");
             btnSave.setText("Salvar");
 
-            Contato contato = (Contato) getIntent().getSerializableExtra("CONTATO");
+            Telefone telefone = (Telefone) getIntent().getSerializableExtra("TELEFONE");
 
-            nome = findViewById(R.id.ti_nome);
-            categoria = findViewById(R.id.ti_categoria);
-
-            nome.setText(contato.getNome());
-            categoria.setText(contato.getCategoria());
+            numero.setText(telefone.getNumero());
+            tipo.setText(telefone.getTipo());
         }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -53,39 +55,40 @@ public class AdicionarContatoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int action = getIntent().getIntExtra("ACTION", -1);
                 if (action == 1) {
-                    adicionarContato();
+                    adicionarTelefone(contato);
                 }else if (action == 0) {
-                    editarContato();
+                    editarTelefone(contato);
                 }else {
                     Toast.makeText(getApplicationContext(), "Ocorreu um erro em sua solicitação!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
-    private void editarContato() {
 
-        nome = findViewById(R.id.ti_nome);
-        categoria = findViewById(R.id.ti_categoria);
+    private void editarTelefone(Contato contato) {
 
-        Contato contato = (Contato) getIntent().getSerializableExtra("CONTATO");
+        Telefone telefone = (Telefone) getIntent().getSerializableExtra("TELEFONE");
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("nome", nome.getText().toString());
-            jsonObject.put("categoria", categoria.getText().toString());
+            jsonObject.put("numero", numero.getText().toString());
+            jsonObject.put("tipo", tipo.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.0.104:8000/api/update/contatos/" + contato.getId();
+        String url = "http://192.168.0.104:8000/api/telefone/" + telefone.getId();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                Intent intent = new Intent(getApplicationContext(), ViewContatoActivity.class);
+                intent.putExtra("CONTATO", contato);
+                startActivity(intent);
                 finish();
             }
         }, new Response.ErrorListener() {
@@ -97,28 +100,28 @@ public class AdicionarContatoActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    private void adicionarContato() {
 
-        nome = findViewById(R.id.ti_nome);
-        categoria = findViewById(R.id.ti_categoria);
+    private void adicionarTelefone(Contato contato) {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("nome", nome.getText().toString());
-            jsonObject.put("categoria", categoria.getText().toString());
-            jsonObject.put("user_id", 1);
+            jsonObject.put("numero", numero.getText().toString());
+            jsonObject.put("tipo", tipo.getText().toString());
+            jsonObject.put("contato_id", contato.getId());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.0.104:8000/api/contatos/" + 1;
+        String url = "http://192.168.0.104:8000/api/telefone";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                Intent intent = new Intent(getApplicationContext(), ViewContatoActivity.class);
+                intent.putExtra("CONTATO", contato);
+                startActivity(intent);
                 finish();
             }
         }, new Response.ErrorListener() {

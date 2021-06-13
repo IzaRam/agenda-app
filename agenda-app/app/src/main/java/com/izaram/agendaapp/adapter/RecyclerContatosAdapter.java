@@ -1,6 +1,8 @@
 package com.izaram.agendaapp.adapter;
 
 import com.izaram.agendaapp.R;
+import com.izaram.agendaapp.model.Contato;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +19,11 @@ import java.util.List;
 
 public class RecyclerContatosAdapter extends RecyclerView.Adapter<RecyclerContatosAdapter.MyViewHolder> {
 
-    private ArrayList<String> contatosList;
-    private ArrayList<String> contatosListFull;
+    private ArrayList<Contato> contatosList;
+    private ArrayList<Contato> contatosListFull;
     private Context context;
 
-    public RecyclerContatosAdapter(Context context, ArrayList<String> contatosList) {
+    public RecyclerContatosAdapter(Context context, ArrayList<Contato> contatosList) {
         this.contatosList = contatosList;
         this.contatosListFull = new ArrayList<>(contatosList);
         this.context = context;
@@ -36,7 +38,7 @@ public class RecyclerContatosAdapter extends RecyclerView.Adapter<RecyclerContat
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.tvContatonome.setText(this.contatosList.get(position));
+        holder.tvContatonome.setText(this.contatosList.get(position).getNome());
     }
 
     @Override
@@ -53,7 +55,7 @@ public class RecyclerContatosAdapter extends RecyclerView.Adapter<RecyclerContat
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            ArrayList<String> filteredList = new ArrayList<>();
+            ArrayList<Contato> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(contatosListFull);
@@ -61,8 +63,8 @@ public class RecyclerContatosAdapter extends RecyclerView.Adapter<RecyclerContat
                 contatosList.clear();
                 contatosList.addAll(contatosListFull);
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (String item : contatosList) {
-                    if (item.toLowerCase().contains(filterPattern)) {
+                for (Contato item : contatosList) {
+                    if (item.getNome().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }

@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECECEC"
-    tools:context=".activity.AdicionarContatoActivity">
+    tools:context=".activity.AdicionarTelefoneActivity">
 
     <TextView
-        android:id="@+id/tv_add_contato_titulo"
+        android:id="@+id/tv_add_telefone_titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Adicionar Novo Contato"
+        android:text="Adicionar Novo Telefone"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,14 +30,15 @@
         app:boxStrokeWidth="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_add_contato_titulo">
+        app:layout_constraintTop_toBottomOf="@id/tv_add_telefone_titulo">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ti_nome"
+            android:id="@+id/ti_numero"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="Nome" />
+            android:hint="Numero"
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,15 +54,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ti_categoria"
+            android:id="@+id/ti_tipo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="Categoria" />
+            android:hint="Tipo"
+            android:inputType="textCapSentences" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_save"
+        android:id="@+id/btn_save_telefone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -69,4 +71,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
